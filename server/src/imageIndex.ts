@@ -17,6 +17,7 @@ export class ImageIndex {
   async refresh(): Promise<void> {
     const publicDir = path.join(this.workspaceRoot, PUBLIC_DIR_NAME);
     const publicDirExists = fs.existsSync(publicDir) && fs.statSync(publicDir).isDirectory();
+    // public/ がある場合、その外の画像はWebから参照できないため候補から除外する
     const searchRoot = publicDirExists ? publicDir : this.workspaceRoot;
 
     const files = await globby([IMAGE_GLOB], {

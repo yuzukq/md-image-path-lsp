@@ -7,6 +7,8 @@ export interface PathResolver {
 }
 
 export function createPathResolver(workspaceRoot: string, publicDirExists: boolean): PathResolver {
+  // public/ 配下はNext.jsの静的アセット規約でWebルート("/"始まり)として参照されるため、
+  // ワークスペースルート相対ではなくpublic相対の絶対風パスを返す
   if (publicDirExists) {
     const publicRoot = path.join(workspaceRoot, PUBLIC_DIR_NAME);
     return {

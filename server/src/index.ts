@@ -62,6 +62,7 @@ connection.onCompletion(async (params): Promise<CompletionItem[]> => {
   const textBeforeCursor = getTextBeforeCursor(document, params.position);
   if (!isInsideImageLinkPath(textBeforeCursor)) return [];
 
+  // 初回スキャン完了前にリクエストが来ても空候補を返さないよう待ち合わせる
   await refreshPromise;
 
   return imageIndex.getAll().map(
