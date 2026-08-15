@@ -7,7 +7,7 @@ Markdown の画像記法 `![alt](...)` の中で、ワークスペース内の�
 ## できること
 
 - `![alt](` の中にカーソルがあるときだけ補完候補を出す(通常のリンク `[text](` には反応しない)
-- ワークスペース内に `public/` ディレクトリがあれば、Next.js の静的アセット規約に合わせて `public` 相対の絶対風パス(`/images/logo.png` 等)を返す。無ければワークスペースルート相対パスを返す
+- ワークスペース内に `public/` ディレクトリがあれば、Next.js の静的アセット規約に合わせて `public` 相対の絶対風パス(`/images/logo.png` 等)を返す。無ければ、編集中の Markdown ファイルから見た相対パス(`../assets/logo.png` 等)を返す
 - 起動後に追加・削除された画像ファイルもリアルタイムで反映
 
 詳しい仕組みは [md-image-path-lsp のREADME](https://github.com/yuzukq/md-image-path-lsp/tree/main/server) を参照してください。
