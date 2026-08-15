@@ -1,6 +1,6 @@
 {
   "name": "md-image-path-lsp",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Markdown image path completion language server",
   "license": "MIT",
   "repository": {
@@ -22,7 +22,8 @@
     "build": "tsc -p .",
     "watch": "tsc -p . --watch",
     "start": "node dist/index.js --stdio",
-    "test": "node --test src/**/*.test.ts"
+    "test": "node --test src/**/*.test.ts",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "vscode-languageserver": "^9.0.1",
