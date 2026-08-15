@@ -1,0 +1,19 @@
+# Node (server/)
+node_modules/
+dist/
+*.tsbuildinfo
+npm-debug.log*
+
+# Rust (clients/zed/)
+target/
+
+# Zed extension build artifacts
+*.wasm
+grammars/
+
+# OS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
