@@ -15,7 +15,7 @@ function writeFile(root: string, relPath: string): void {
   fs.writeFileSync(full, '');
 }
 
-test('public/ が無い場合、ワークスペース全体から画像を拾いルート相対パスを返す', async () => {
+test('public/ が無い場合、ワークスペース全体から画像を絶対パスで拾う', async () => {
   const root = makeTmpDir();
   writeFile(root, 'assets/logo.png');
   writeFile(root, 'assets/img/photo.jpeg');
@@ -25,12 +25,13 @@ test('public/ が無い場合、ワークスペース全体から画像を拾い
   await index.refresh();
 
   assert.deepEqual(
-    [...index.getAll()].sort(),
-    ['assets/img/photo.jpeg', 'assets/logo.png'].sort()
+    [...index.getAllAbsolutePaths()].sort(),
+    [path.join(root, 'assets/img/photo.jpeg'), path.join(root, 'assets/logo.png')].sort()
   );
+  assert.equal(index.getPublicDir(), undefined);
 });
 
-test('public/ がある場合、public配下だけを探索しスラッシュ始まりのパスを返す', async () => {
+test('public/ がある場合、public配下だけを探索し、getPublicDir()がそのパスを返す', async () => {
   const root = makeTmpDir();
   writeFile(root, 'public/images/logo.png');
   writeFile(root, 'src/unrelated.png'); // public外は対象外
@@ -38,7 +39,8 @@ test('public/ がある場合、public配下だけを探索しスラッシュ始
   const index = new ImageIndex(root);
   await index.refresh();
 
-  assert.deepEqual([...index.getAll()], ['/images/logo.png']);
+  assert.deepEqual([...index.getAllAbsolutePaths()], [path.join(root, 'public/images/logo.png')]);
+  assert.equal(index.getPublicDir(), path.join(root, 'public'));
 });
 
 test('.gitignore に書かれたファイルは除外される', async () => {
@@ -51,7 +53,7 @@ test('.gitignore に書かれたファイルは除外される', async () => {
   const index = new ImageIndex(root);
   await index.refresh();
 
-  assert.deepEqual([...index.getAll()], ['assets/logo.png']);
+  assert.deepEqual([...index.getAllAbsolutePaths()], [path.join(root, 'assets/logo.png')]);
 });
 
 test('画像以外の拡張子は候補に含まれない', async () => {
@@ -63,5 +65,5 @@ test('画像以外の拡張子は候補に含まれない', async () => {
   const index = new ImageIndex(root);
   await index.refresh();
 
-  assert.deepEqual([...index.getAll()], ['assets/logo.png']);
+  assert.deepEqual([...index.getAllAbsolutePaths()], [path.join(root, 'assets/logo.png')]);
 });

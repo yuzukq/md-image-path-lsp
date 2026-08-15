@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import * as path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
   createConnection,
@@ -15,6 +16,7 @@ import { ImageIndex } from './imageIndex.ts';
 import { isInsideImageLinkPath } from './completionContext.ts';
 import { getTextBeforeCursor } from './documentUtils.ts';
 import { watchForChanges } from './watcher.ts';
+import { toInsertablePath, type PathBasis } from './pathResolver.ts';
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
@@ -65,13 +67,19 @@ connection.onCompletion(async (params): Promise<CompletionItem[]> => {
   // 初回スキャン完了前にリクエストが来ても空候補を返さないよう待ち合わせる
   await refreshPromise;
 
-  return imageIndex.getAll().map(
-    (imagePath): CompletionItem => ({
-      label: imagePath,
-      insertText: imagePath,
+  const publicDir = imageIndex.getPublicDir();
+  const basis: PathBasis = publicDir
+    ? { kind: 'public', publicDir }
+    : { kind: 'relative', currentFileDir: path.dirname(fileURLToPath(document.uri)) };
+
+  return imageIndex.getAllAbsolutePaths().map((absolutePath): CompletionItem => {
+    const insertablePath = toInsertablePath(absolutePath, basis);
+    return {
+      label: insertablePath,
+      insertText: insertablePath,
       kind: CompletionItemKind.File,
-    })
-  );
+    };
+  });
 });
 
 connection.onShutdown(() => {
