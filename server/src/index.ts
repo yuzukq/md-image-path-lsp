@@ -13,12 +13,14 @@ import { TextDocument } from 'vscode-languageserver-textdocument';
 import { ImageIndex } from './imageIndex.ts';
 import { isInsideImageLinkPath } from './completionContext.ts';
 import { getTextBeforeCursor } from './documentUtils.ts';
+import { watchForChanges } from './watcher.ts';
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
 
 let imageIndex: ImageIndex | undefined;
 let refreshPromise: Promise<void> = Promise.resolve();
+let stopWatching: (() => void) | undefined;
 
 function getWorkspaceRoot(params: InitializeParams): string | undefined {
   if (params.workspaceFolders && params.workspaceFolders.length > 0) {
@@ -35,6 +37,9 @@ connection.onInitialize((params: InitializeParams): InitializeResult => {
   if (workspaceRoot) {
     imageIndex = new ImageIndex(workspaceRoot);
     refreshPromise = imageIndex.refresh();
+    stopWatching = watchForChanges(workspaceRoot, () => {
+      refreshPromise = imageIndex!.refresh();
+    });
   }
 
   return {
@@ -65,6 +70,10 @@ connection.onCompletion(async (params): Promise<CompletionItem[]> => {
       kind: CompletionItemKind.File,
     })
   );
+});
+
+connection.onShutdown(() => {
+  stopWatching?.();
 });
 
 documents.listen(connection);
