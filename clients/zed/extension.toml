@@ -1,7 +1,7 @@
 id = "md-image-path-lsp"
 name = "Markdown Image Path Completion"
 description = "Completes relative paths to image files inside Markdown ![]() links."
-version = "0.0.1"
+version = "0.1.0"
 schema_version = 1
 authors = ["yuzu"]
 repository = "https://github.com/yuzukq/md-image-path-lsp"
