@@ -2,8 +2,8 @@ import * as fs from 'node:fs';
 
 const DEBOUNCE_MS = 300;
 
-// LSPクライアント側のdidChangeWatchedFiles対応状況に依存しないよう、サーバー自身がfs.watchでワークスペースを監視する。
-// recursive:trueはmacOS/Windowsのみサポート(Linuxでは未対応な場合がある)
+// LSPクライアント側のdidChangeWatchedFiles対応状況に依存しないよう
+// サーバー自身がfs.watchでワークスペースを監視する
 export function watchForChanges(root: string, onChange: () => void): () => void {
   let timer: NodeJS.Timeout | undefined;
 

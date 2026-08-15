@@ -2,10 +2,22 @@
   "name": "md-image-path-lsp",
   "version": "0.1.0",
   "description": "Markdown image path completion language server",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yuzukq/md-image-path-lsp.git",
+    "directory": "server"
+  },
   "bin": {
     "md-image-path-lsp": "dist/index.js"
   },
   "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=19.1.0"
+  },
   "scripts": {
     "build": "tsc -p .",
     "watch": "tsc -p . --watch",
