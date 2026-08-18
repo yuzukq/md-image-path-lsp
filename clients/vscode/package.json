@@ -2,7 +2,7 @@
   "name": "md-image-path-lsp-vscode",
   "displayName": "Markdown Image Path Completion",
   "description": "Completes relative paths to image files inside Markdown ![]() links.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "yuzukq",
   "license": "MIT",
   "repository": {
