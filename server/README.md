@@ -1,24 +1,26 @@
 # md-image-path-lsp
 
-Markdown の画像記法 `![alt](...)` の中で、ワークスペース内の画像ファイル(png / jpg / jpeg / gif / svg / webp / avif)を相対パス補完する Language Server です。
+[日本語](./README.ja.md)
 
-## できること
+A Language Server that completes relative paths to image files (png / jpg / jpeg / gif / svg / webp / avif) in your workspace inside Markdown `![alt](...)` syntax.
 
-- `![alt](` の中にカーソルがあるときだけ補完候補を出す(通常のリンク `[text](` には反応しない)
-- 候補のパスは、途中のディレクトリ名を含めた曖昧検索でフィルタできる
-- `.gitignore` に書かれたファイルは候補から除外
-- ワークスペース内に `public/` ディレクトリが存在する場合、Next.js の静的アセット規約(`public/images/logo.png` → `/images/logo.png`)に合わせて `public` 相対の絶対風パスを返す。無ければ、編集中の Markdown ファイルから見た相対パス(`../assets/logo.png` 等)を返す
-- 起動後に追加・削除された画像ファイルもリアルタイムで反映(`fs.watch` によるファイル監視)
+## Features
 
-## 利用方法
+- Only suggests completions when the cursor is inside `![alt](` (a plain link `[text](` is ignored)
+- Candidate paths can be filtered with a fuzzy match that includes intermediate directory names
+- Files listed in `.gitignore` are excluded from candidates
+- If a `public/` directory exists in the workspace, returns `public`-relative absolute-style paths following the Next.js static asset convention (`public/images/logo.png` → `/images/logo.png`). Otherwise, returns paths relative to the Markdown file being edited (e.g. `../assets/logo.png`)
+- Image files added or removed after startup are reflected in real time (via `fs.watch`)
 
-このパッケージは標準の Language Server Protocol (stdio) で動作するため、`npx` 経由で任意の LSP クライアントから直接起動できます。
+## Usage
+
+This package speaks the standard Language Server Protocol over stdio, so it can be launched directly from any LSP client via `npx`.
 
 ```bash
 npx md-image-path-lsp --stdio
 ```
 
-### Neovim (nvim-lspconfig) の設定例
+### Example: Neovim (nvim-lspconfig)
 
 ```lua
 local lspconfig = require('lspconfig')
@@ -37,9 +39,9 @@ end
 configs.md_image_path_lsp.setup {}
 ```
 
-## 動作要件
+## Requirements
 
-Node.js v19.1.0 以降(`fs.watch` の `recursive` オプションが Linux でも正式サポートされたバージョン)。
+Node.js v19.1.0 or later (the version where `fs.watch`'s `recursive` option gained official support on Linux).
 
 ## License
 

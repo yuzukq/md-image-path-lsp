@@ -2,7 +2,9 @@
 
 # md-image-path-lsp
 
-**Markdown の画像パスを、ワークスペースの実ファイルに合わせて補完する Language Server**
+[日本語](./README.ja.md)
+
+**A Language Server that completes Markdown image paths against the real files in your workspace**
 
 [![npm version](https://img.shields.io/npm/v/md-image-path-lsp.svg)](https://www.npmjs.com/package/md-image-path-lsp)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](./server/LICENSE)
@@ -11,61 +13,61 @@
 
 ---
 
-Markdown の画像記法 `![alt](...)` の中で、ワークスペース内の画像ファイルへの相対パスを補完する Language Server と、それを使うための Zed 拡張機能です。
+A Language Server that completes relative paths to image files in your workspace inside Markdown `![alt](...)` syntax, plus a Zed extension and a VS Code extension that use it.
 
-## 2種類のパス補完
+## Two path resolution modes
 
-Next.js や Vite のように `public/` 配下を静的配信するフレームワーク環境と、フレームワークを使わずただ Markdown を書く用途、どちらでも自然なパス補完を行います。
+Works naturally both in frameworks that serve `public/` as static assets (Next.js, Vite, etc.) and in plain Markdown editing with no framework at all.
 
 <table>
 <tr>
-<th align="left"><code>public/</code> があるフレームワーク環境(Next.js / Vite など)</th>
+<th align="left">Framework environment with a <code>public/</code> directory (Next.js / Vite, etc.)</th>
 </tr>
 <tr>
 <td>
 
-`public/` を Web ルートとみなし、`/images/logo.png` のような絶対風パスを補完します。
+Treats `public/` as the web root and completes absolute-style paths such as `/images/logo.png`.
 
-![public/ がある環境での補完](./.github/images/prev_public.png)
+![Completion in an environment with public/](./.github/images/prev_public.png)
 
 </td>
 </tr>
 <tr>
-<th align="left"><code>public/</code> が無い、素の Markdown 編集環境</th>
+<th align="left">Plain Markdown editing with no <code>public/</code> directory</th>
 </tr>
 <tr>
 <td>
 
-編集中の Markdown ファイルから見た相対パス(`../images/logo.png` 等)を補完します。ブログ記事や README など、ファイルをそのまま(Obsidian や GitHub、静的ファイルビューアで)表示する用途に向いています。
+Completes paths relative to the file being edited (e.g. `../images/logo.png`). Suited for blog posts, READMEs, and anything viewed as a raw file (Obsidian, GitHub, static file viewers).
 
-![public/ が無い環境での補完](./.github/images/prev_nonpublic.png)
+![Completion in an environment without public/](./.github/images/prev_nonpublic.png)
 
 </td>
 </tr>
 </table>
 
-## 構成
+## Structure
 
 ```
 .
-├── server/          Language Server本体 (npm: md-image-path-lsp)
-├── clients/zed/     Zed拡張機能 (server/ をnpm経由で自動取得するラッパー)
-└── clients/vscode/  VS Code拡張機能 (server/ を依存パッケージとして同梱するラッパー)
+├── server/          The Language Server itself (npm: md-image-path-lsp)
+├── clients/zed/     Zed extension (fetches server/ from npm automatically)
+└── clients/vscode/  VS Code extension (bundles server/ as a dependency)
 ```
 
-エディタ非依存な `server/` はZed・VS Code以外でも `npx md-image-path-lsp --stdio` で任意のLSPクライアントから利用できます。詳細は各ディレクトリのREADMEを参照してください。
+`server/` is editor-agnostic and can be used from any LSP client via `npx md-image-path-lsp --stdio`, not just Zed and VS Code. See each directory's README for details.
 
-- [server/README.md](./server/README.md) — Language Server本体の使い方
-- [clients/zed/README.md](./clients/zed/README.md) — Zed拡張機能のセットアップ
-- [clients/vscode/README.md](./clients/vscode/README.md) — VS Code拡張機能のセットアップ
+- [server/README.md](./server/README.md) — how to use the Language Server itself
+- [clients/zed/README.md](./clients/zed/README.md) — setting up the Zed extension
+- [clients/vscode/README.md](./clients/vscode/README.md) — setting up the VS Code extension
 
-## 対応エディタ
+## Editor support
 
-| エディタ | 状況 |
+| Editor | Status |
 |---|---|
-| **Zed** | `clients/zed/` で対応済み |
-| **Neovim / Helix / Emacs (eglot)** など | 汎用LSPクライアント設定から `npx md-image-path-lsp --stdio` を直接呼び出せば利用可能 |
-| **VS Code** | [Marketplace](https://marketplace.visualstudio.com/items?itemName=yuzukq.md-image-path-lsp-vscode) で公開済み |
+| **Zed** | Supported via `clients/zed/` |
+| **Neovim / Helix / Emacs (eglot)**, etc. | Works with any generic LSP client config that invokes `npx md-image-path-lsp --stdio` directly |
+| **VS Code** | Published on the [Marketplace](https://marketplace.visualstudio.com/items?itemName=yuzukq.md-image-path-lsp-vscode) |
 
 ---
 
