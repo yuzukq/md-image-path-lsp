@@ -17,3 +17,11 @@ grammars/
 # Editor
 .vscode/
 .idea/
+
+# clients/vscode/ はVS Code拡張機能自体なので、F5デバッグ用launch.jsonは追跡する
+!clients/vscode/.vscode/
+!clients/vscode/.vscode/*.json
+
+# clients/vscode/ build output
+clients/vscode/out/
+*.vsix

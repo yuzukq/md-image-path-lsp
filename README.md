@@ -48,14 +48,16 @@ Next.js や Vite のように `public/` 配下を静的配信するフレーム�
 
 ```
 .
-├── server/       Language Server本体 (npm: md-image-path-lsp)
-└── clients/zed/  Zed拡張機能 (server/ をnpm経由で自動取得するラッパー)
+├── server/          Language Server本体 (npm: md-image-path-lsp)
+├── clients/zed/     Zed拡張機能 (server/ をnpm経由で自動取得するラッパー)
+└── clients/vscode/  VS Code拡張機能 (server/ を依存パッケージとして同梱するラッパー)
 ```
 
-エディタ非依存な `server/` はZed以外でも `npx md-image-path-lsp --stdio` で任意のLSPクライアントから利用できます。詳細は各ディレクトリのREADMEを参照してください。
+エディタ非依存な `server/` はZed・VS Code以外でも `npx md-image-path-lsp --stdio` で任意のLSPクライアントから利用できます。詳細は各ディレクトリのREADMEを参照してください。
 
 - [server/README.md](./server/README.md) — Language Server本体の使い方
 - [clients/zed/README.md](./clients/zed/README.md) — Zed拡張機能のセットアップ
+- [clients/vscode/README.md](./clients/vscode/README.md) — VS Code拡張機能のセットアップ
 
 ## 対応エディタ
 
@@ -63,7 +65,7 @@ Next.js や Vite のように `public/` 配下を静的配信するフレーム�
 |---|---|
 | **Zed** | `clients/zed/` で対応済み |
 | **Neovim / Helix / Emacs (eglot)** など | 汎用LSPクライアント設定から `npx md-image-path-lsp --stdio` を直接呼び出せば利用可能 |
-| **VS Code** | 未対応。VS Codeは任意のLSPバイナリを直接指す汎用設定を持たないため、`vscode-languageclient` を使った専用クライアント拡張機能を別途実装する必要があります(対応予定) |
+| **VS Code** | [Marketplace](https://marketplace.visualstudio.com/items?itemName=yuzukq.md-image-path-lsp-vscode) で公開済み |
 
 ---
 
