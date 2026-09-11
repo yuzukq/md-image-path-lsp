@@ -2,14 +2,14 @@
 
 [English](./README.md)
 
-Markdown の画像記法 `![alt](...)` の中で、ワークスペース内の画像ファイル(png / jpg / jpeg / gif / svg / webp / avif)を相対パス補完する Language Server です。
+Markdown の画像記法 `![alt](...)` の中で、ワークスペース内の画像ファイル(png / jpg / jpeg / gif / svg / webp / avif。大文字小文字は区別しない)を相対パス補完する Language Server です。
 
 ## できること
 
 - `![alt](` の中にカーソルがあるときだけ補完候補を出す(通常のリンク `[text](` には反応しない)
 - 候補のパスは、途中のディレクトリ名を含めた曖昧検索でフィルタできる
 - `.gitignore` に書かれたファイルは候補から除外
-- ワークスペース内に `public/` ディレクトリが存在する場合、Next.js の静的アセット規約(`public/images/logo.png` → `/images/logo.png`)に合わせて `public` 相対の絶対風パスを返す。無ければ、編集中の Markdown ファイルから見た相対パス(`../assets/logo.png` 等)を返す
+- ワークスペース内に `public/` ディレクトリが存在する場合、Next.js の静的アセット規約(`public/images/logo.png` → `/images/logo.png`)に合わせて `public` 相対の絶対風パスを返す(ディレクトリ名の大文字小文字は区別しない)。無ければ、編集中の Markdown ファイルから見た相対パス(`../assets/logo.png` 等)を返す
 - 起動後に追加・削除された画像ファイルもリアルタイムで反映(`fs.watch` によるファイル監視)
 
 ## 利用方法

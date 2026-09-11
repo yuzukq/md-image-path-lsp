@@ -15,10 +15,7 @@ export class ImageIndex {
   }
 
   async refresh(): Promise<void> {
-    const candidatePublicDir = path.join(this.workspaceRoot, PUBLIC_DIR_NAME);
-    const publicDirExists =
-      fs.existsSync(candidatePublicDir) && fs.statSync(candidatePublicDir).isDirectory();
-    this.publicDir = publicDirExists ? candidatePublicDir : undefined;
+    this.publicDir = findPublicDir(this.workspaceRoot);
 
     // public/ がある場合、その外の画像はWebから参照できないため候補から除外する
     const searchRoot = this.publicDir ?? this.workspaceRoot;
@@ -27,6 +24,8 @@ export class ImageIndex {
       cwd: searchRoot,
       gitignore: true,
       absolute: true,
+      // iPhoneの写真などで拡張子が大文字(.JPG等)になるため、大小を区別せずマッチさせる
+      caseSensitiveMatch: false,
     });
   }
 
@@ -37,4 +36,30 @@ export class ImageIndex {
   getPublicDir(): string | undefined {
     return this.publicDir;
   }
+}
+
+// Vaporのように大文字の `Public/` を静的アセットのWebルートにするフレームワークがあり、
+// macOS/Windowsではfs自体が大小を区別せず既に `Public/` を拾えていたため、
+// OS間で挙動が揃うようディレクトリ名の大小を無視して検出する
+function findPublicDir(workspaceRoot: string): string | undefined {
+  let entries: string[];
+  try {
+    entries = fs.readdirSync(workspaceRoot);
+  } catch {
+    return undefined;
+  }
+
+  const candidates = entries.filter((name) => name.toLowerCase() === PUBLIC_DIR_NAME).sort();
+  // case-sensitive FSで 'public' と 'Public' が並存する場合は完全一致を優先して決定的にする
+  const ordered = candidates.includes(PUBLIC_DIR_NAME)
+    ? [PUBLIC_DIR_NAME, ...candidates.filter((name) => name !== PUBLIC_DIR_NAME)]
+    : candidates;
+
+  for (const name of ordered) {
+    const fullPath = path.join(workspaceRoot, name);
+    if (fs.statSync(fullPath, { throwIfNoEntry: false })?.isDirectory()) {
+      return fullPath;
+    }
+  }
+  return undefined;
 }
