@@ -2,14 +2,14 @@
 
 [日本語](./README.ja.md)
 
-A Language Server that completes relative paths to image files (png / jpg / jpeg / gif / svg / webp / avif) in your workspace inside Markdown `![alt](...)` syntax.
+A Language Server that completes relative paths to image files (png / jpg / jpeg / gif / svg / webp / avif, case-insensitive) in your workspace inside Markdown `![alt](...)` syntax.
 
 ## Features
 
 - Only suggests completions when the cursor is inside `![alt](` (a plain link `[text](` is ignored)
 - Candidate paths can be filtered with a fuzzy match that includes intermediate directory names
 - Files listed in `.gitignore` are excluded from candidates
-- If a `public/` directory exists in the workspace, returns `public`-relative absolute-style paths following the Next.js static asset convention (`public/images/logo.png` → `/images/logo.png`). Otherwise, returns paths relative to the Markdown file being edited (e.g. `../assets/logo.png`)
+- If a `public/` directory exists in the workspace, returns `public`-relative absolute-style paths following the Next.js static asset convention (`public/images/logo.png` → `/images/logo.png`). The directory name is matched case-insensitively. Otherwise, returns paths relative to the Markdown file being edited (e.g. `../assets/logo.png`)
 - Image files added or removed after startup are reflected in real time (via `fs.watch`)
 
 ## Usage

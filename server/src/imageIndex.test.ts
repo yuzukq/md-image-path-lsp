@@ -56,6 +56,36 @@ test('.gitignore に書かれたファイルは除外される', async () => {
   assert.deepEqual([...index.getAllAbsolutePaths()], [path.join(root, 'assets/logo.png')]);
 });
 
+test('大文字・混在拡張子(.JPG / .Png)の画像も候補に含まれる', async () => {
+  const root = makeTmpDir();
+  writeFile(root, 'assets/photo.JPG'); // iPhone互換優先設定の出力形式
+  writeFile(root, 'assets/icon.Png');
+  writeFile(root, 'assets/logo.png');
+
+  const index = new ImageIndex(root);
+  await index.refresh();
+
+  assert.deepEqual(
+    [...index.getAllAbsolutePaths()].sort(),
+    [
+      path.join(root, 'assets/icon.Png'),
+      path.join(root, 'assets/logo.png'),
+      path.join(root, 'assets/photo.JPG'),
+    ].sort()
+  );
+});
+
+test('大文字の Public/ ディレクトリもpublicとして検出され、実際のディレクトリ名が返る', async () => {
+  const root = makeTmpDir();
+  writeFile(root, 'Public/images/logo.png'); // Vaporなどの規約
+
+  const index = new ImageIndex(root);
+  await index.refresh();
+
+  assert.deepEqual([...index.getAllAbsolutePaths()], [path.join(root, 'Public/images/logo.png')]);
+  assert.equal(index.getPublicDir(), path.join(root, 'Public'));
+});
+
 test('画像以外の拡張子は候補に含まれない', async () => {
   const root = makeTmpDir();
   writeFile(root, 'assets/logo.png');
