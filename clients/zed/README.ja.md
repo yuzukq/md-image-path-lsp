@@ -16,7 +16,11 @@ Markdown の画像記法 `![alt](...)` の中で、ワークスペース内の�
 
 ## インストール
 
-現在は Zed の "Install Dev Extension" 機能を使ったローカルインストールに対応しています。このディレクトリを指定してください。
+Zedの拡張機能レジストリから入手できます。Zedで`zed: extensions`コマンドを開き、`Markdown Image Path Completion`を検索してインストールしてください。あるいは[Zed拡張機能レジストリ](https://zed.dev/extensions?query=Markdown+Image+Path+Completion)からも確認できます。
+
+### ソースからのビルド(開発用)
+
+Zedの "Install Dev Extension" 機能を使い、このディレクトリを指定してください。
 
 ## License
 

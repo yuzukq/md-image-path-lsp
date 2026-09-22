@@ -65,7 +65,7 @@ Completes paths relative to the file being edited (e.g. `../images/logo.png`). S
 
 | Editor | Status |
 |---|---|
-| **Zed** | Supported via `clients/zed/` |
+| **Zed** | Published in the [Zed extension registry](https://zed.dev/extensions?query=Markdown+Image+Path+Completion) |
 | **Neovim / Helix / Emacs (eglot)**, etc. | Works with any generic LSP client config that invokes `npx md-image-path-lsp --stdio` directly |
 | **VS Code** | Published on the [Marketplace](https://marketplace.visualstudio.com/items?itemName=yuzukq.md-image-path-lsp-vscode) |
 

@@ -16,7 +16,11 @@ See the [md-image-path-lsp README](https://github.com/yuzukq/md-image-path-lsp/t
 
 ## Installation
 
-Currently only local installation via Zed's "Install Dev Extension" feature is supported. Point it at this directory.
+Available in Zed's extension registry. Open the `zed: extensions` command in Zed and search for `Markdown Image Path Completion`, or install it from the [Zed extension registry](https://zed.dev/extensions?query=Markdown+Image+Path+Completion).
+
+### Building from source (development)
+
+Use Zed's "Install Dev Extension" feature and point it at this directory.
 
 ## License
 

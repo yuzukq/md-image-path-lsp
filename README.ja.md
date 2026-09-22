@@ -65,7 +65,7 @@ Next.js や Vite のように `public/` 配下を静的配信するフレーム�
 
 | エディタ | 状況 |
 |---|---|
-| **Zed** | `clients/zed/` で対応済み |
+| **Zed** | [Zed拡張機能レジストリ](https://zed.dev/extensions?query=Markdown+Image+Path+Completion) で公開済み |
 | **Neovim / Helix / Emacs (eglot)** など | 汎用LSPクライアント設定から `npx md-image-path-lsp --stdio` を直接呼び出せば利用可能 |
 | **VS Code** | [Marketplace](https://marketplace.visualstudio.com/items?itemName=yuzukq.md-image-path-lsp-vscode) で公開済み |
 
